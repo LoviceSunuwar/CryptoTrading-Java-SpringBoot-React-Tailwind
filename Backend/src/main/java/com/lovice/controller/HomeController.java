@@ -11,4 +11,9 @@ public class HomeController {
         return "welcome to our trading platform";
     }
 
+    @GetMapping("/secured")
+    public String secured() {
+        return "welcome to our trading Secured platform";
+    }
+
 }
