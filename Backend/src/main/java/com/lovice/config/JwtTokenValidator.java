@@ -11,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.GrantedAuthoritiesContainer;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -36,7 +35,6 @@ public class JwtTokenValidator extends OncePerRequestFilter {
                         .setSigningKey(key)
                         .build().parseClaimsJws(jwt)
                         .getBody();
-
                 String email = String.valueOf(claims.get("email"));
 
                 String authorities = String.valueOf(claims.get("authorities"));
@@ -54,7 +52,7 @@ public class JwtTokenValidator extends OncePerRequestFilter {
                 throw new RuntimeException("Invalid Token....");
             }
 
-            filterChain.doFilter(request, response);
         }
+        filterChain.doFilter(request, response);
     }
 }

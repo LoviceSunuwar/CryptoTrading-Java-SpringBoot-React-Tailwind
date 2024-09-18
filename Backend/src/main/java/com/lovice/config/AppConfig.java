@@ -1,5 +1,6 @@
 package com.lovice.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -10,6 +11,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @Configuration
 public class AppConfig {
 
+    @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         //Here we are providing which endpoint should be white-listed and protected
         http.sessionManagement(management->management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
