@@ -6,6 +6,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.crypto.SecretKey;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -21,8 +23,8 @@ public class JwtProvider {
         String roles = populateAuthorities(authorities);
 
         String jwt = Jwts.builder()
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime()+86400000))
+                .setIssuedAt(Date.from(Instant.now()))
+                .setExpiration(Date.from(Instant.now().plus(1, ChronoUnit.DAYS)))
                 .claim("email", auth.getName())
                 .claim("authorities", auth.getAuthorities())
                 .signWith(key)
@@ -38,7 +40,7 @@ public class JwtProvider {
         return String.join(",",auth);
     }
 
-    }
-
-
 }
+
+
+
