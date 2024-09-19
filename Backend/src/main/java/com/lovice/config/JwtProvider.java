@@ -1,5 +1,6 @@
 package com.lovice.config;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.Authentication;
@@ -30,6 +31,17 @@ public class JwtProvider {
                 .signWith(key)
                 .compact();
         return jwt;
+    }
+
+    public static String getEmailFromToken(String token) {
+        token = token.substring(7);
+        Claims claims = Jwts.parser()
+                .setSigningKey(key)
+                .build().parseClaimsJws(token)
+                .getBody();
+        String email = String.valueOf(claims.get("email"));
+
+       return email;
     }
 
     private static String populateAuthorities(Collection<? extends GrantedAuthority> authorities) {

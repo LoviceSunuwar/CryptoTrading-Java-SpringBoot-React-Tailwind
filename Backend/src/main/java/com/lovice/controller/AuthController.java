@@ -1,6 +1,8 @@
 package com.lovice.controller;
 
+import com.lovice.config.JwtProvider;
 import com.lovice.model.User;
+import com.lovice.reponse.AuthResponse;
 import com.lovice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +22,7 @@ public class AuthController {
     private UserRepository userRepository;
 
     @PostMapping("/signup")
-    public ResponseEntity<User> register(@RequestBody User user) throws Exception { // we are getting the user from request body
+    public ResponseEntity<AuthResponse> register(@RequestBody User user) throws Exception { // we are getting the user from request body
 
         User isEmailExist = userRepository.findByEmail(user.getEmail());
 
@@ -39,8 +41,16 @@ public class AuthController {
                 user.getEmail(),
                 user.getPassword()
         );
+        // Create JWT Token
+        String jwt = JwtProvider.generateToken(auth);
 
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        AuthResponse res=new AuthResponse();
+        res.setJwt(jwt);
+        res.setStatus(true);
+        res.setMessage("Register Successful");
+
+
+        return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 }
 
