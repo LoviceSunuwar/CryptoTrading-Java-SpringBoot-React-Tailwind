@@ -43,7 +43,7 @@ public class JwtTokenValidator extends OncePerRequestFilter {
 
                 Authentication auth = new UsernamePasswordAuthenticationToken(
                         email,
-                        authoritiesList,
+                        null,
                         authoritiesList
                 );
 
